@@ -4,12 +4,19 @@ chat_client
 chat_client_console
 chat_client_gui
 
-# Qt 빌드 임시 파일 무시
+# Qt 관련 무시할 파일
+*.pro.user
+*.pro.user.*
+build-*/
 *.o
+*.moc
 moc_*
-*.stash
-client/Makefile
-client/ui_*.h
+ui_*
+qrc_*
+Makefile*
+debug/
+release/
+.qmake.stash
 
 # 시스템 파일 무시
 .DS_Store
