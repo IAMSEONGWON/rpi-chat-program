@@ -1,3 +1,15 @@
+# 실행 파일 무시
 chat_server
 chat_client
+chat_client_console
+chat_client_gui
+
+# Qt 빌드 임시 파일 무시
 *.o
+moc_*
+*.stash
+client/Makefile
+client/ui_*.h
+
+# 시스템 파일 무시
+.DS_Store

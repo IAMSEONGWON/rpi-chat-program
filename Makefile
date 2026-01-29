@@ -1,22 +1,23 @@
 # 컴파일러 설정
 CXX = g++
-# 컴파일 옵션 (-Wall: 모든 경고 표시, -O2: 최적화)
-CXXFLAGS = -Wall -O2
-# 링크 라이브러리 (pthread)
-LDFLAGS = -lpthread
+CXXFLAGS = -I./common -pthread 
 
-# 실행 파일 이름
-TARGET = chat_server
-# 소스 파일 경로
-SRCS = server/main.cpp
+# 기본 타겟: 서버와 콘솔 클라이언트만 빌드 (Qt 제외)
+all: server_build console_client_build
 
-# make
-all: $(TARGET)
+# 1. 서버 빌드
+server_build:
+	$(CXX) -o chat_server server/main.cpp $(CXXFLAGS)
 
-# 빌드 규칙
-$(TARGET): $(SRCS)
-	$(CXX) $(CXXFLAGS) -o $(TARGET) $(SRCS) $(LDFLAGS)
+# 2. 콘솔 클라이언트 빌드 (SSH용)
+console_client_build:
+	$(CXX) -o chat_client_console client/main_console.cpp $(CXXFLAGS)
 
-# make clean
+# 3. Qt 클라이언트 빌드 (PC에서나 필요할 때 명시적으로 호출)
+qt_client_build:
+	cd client && qmake client.pro && make
+	mv client/chat_client_app ./chat_client_gui
+
 clean:
-	rm -f $(TARGET)
+	rm -f chat_server chat_client_console chat_client_gui
+	cd client && make clean || true
