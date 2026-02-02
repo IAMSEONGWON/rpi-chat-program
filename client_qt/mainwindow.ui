@@ -17,10 +17,10 @@
    <widget class="QTextEdit" name="textLog">
     <property name="geometry">
      <rect>
-      <x>340</x>
-      <y>280</y>
-      <width>104</width>
-      <height>71</height>
+      <x>203</x>
+      <y>70</y>
+      <width>431</width>
+      <height>281</height>
      </rect>
     </property>
     <property name="readOnly">
@@ -30,9 +30,9 @@
    <widget class="QLineEdit" name="lineEdit">
     <property name="geometry">
      <rect>
-      <x>340</x>
+      <x>212</x>
       <y>390</y>
-      <width>113</width>
+      <width>241</width>
       <height>22</height>
      </rect>
     </property>
@@ -40,7 +40,7 @@
    <widget class="QPushButton" name="btnSend">
     <property name="geometry">
      <rect>
-      <x>350</x>
+      <x>300</x>
       <y>430</y>
       <width>75</width>
       <height>24</height>
@@ -73,7 +73,16 @@
      </rect>
     </property>
     <property name="text">
-     <string>Guest</string>
+     <string/>
+    </property>
+    <property name="dragEnabled">
+     <bool>false</bool>
+    </property>
+    <property name="placeholderText">
+     <string>닉네임 입력</string>
+    </property>
+    <property name="clearButtonEnabled">
+     <bool>false</bool>
     </property>
    </widget>
   </widget>

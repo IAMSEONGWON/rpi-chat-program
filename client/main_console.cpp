@@ -121,8 +121,8 @@ int main(int argc, char *argv[]) {
         if (c == '\n') { // [엔터 키] 전송
             printf("\n");
             if (current_input.length() > 0) {
-                // 종료 커맨드 'q' 확인
-                if (current_input == "q") {
+                // 종료 커맨드를 "/q"로 변경하여 실수 방지
+                if (current_input == "/q") { 
                     input_mtx.unlock();
                     break; 
                 }

@@ -35,13 +35,23 @@ MainWindow::~MainWindow()
 
 void MainWindow::connectToServer()
 {
-    socket->connectToHost("192.168.0.20", 12345); // IP 수정 필요
+    // UI에서 닉네임 가져오기
+    QString nickname = ui->leNickname->text();
+    if(nickname.isEmpty()) nickname = "QtUser"; // 닉네임 없으면 기본값
+
+    // 서버 연결 시도 (IP로 수정 필요)
+    socket->connectToHost("192.168.0.30", 12345);
+
+    // 연결 시도 직후, 닉네임 패킷 먼저 전송
+    // Qt 소켓은 비동기라 연결되기 전이라도 버퍼에 담아뒀다가 연결 즉시 보냄
+    socket->write(nickname.toUtf8());
+
+    // UI 상태 변경 (연결 중임을 표시)
+    ui->textLog->append("서버에 접속을 시도 중...");
 
     // 서버에 연결되면 닉네임 칸 수정 불가능 (Read Only) + 연결 버튼 비활성화
     ui->leNickname->setReadOnly(true);
     ui->btnConnect->setEnabled(false);
-
-    ui->textLog->append("서버 접속 시도 중...");
 }
 
 void MainWindow::sendMessage()
