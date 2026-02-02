@@ -3,6 +3,7 @@ chat_server
 chat_client
 chat_client_console
 chat_client_gui
+chat_client_rpi
 
 # Qt 관련 무시할 파일
 *.pro.user
