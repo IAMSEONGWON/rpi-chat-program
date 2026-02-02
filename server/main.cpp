@@ -27,16 +27,31 @@ void send_msg(char *msg, int len, int sender_sock) {
     }
 }
 
-void handle_clnt(int clnt_sock) {
+// 인자에 'string client_ip' 추가 (IP를 받아오기 위함)
+void handle_clnt(int clnt_sock, string client_ip) {
     int str_len = 0;
     char msg[BUF_SIZE];
     char notice[BUF_SIZE]; // 공지용 버퍼
+    char nickname[BUF_SIZE] = "Unknown"; 
 
+    // 접속하자마자 닉네임 수신
+    int name_len = read(clnt_sock, nickname, sizeof(nickname)-1);
+    if (name_len > 0) {
+        nickname[name_len] = 0; 
+    }
+
+    // 닉네임과 IP를 합쳐서 접속 알림 전송
+    // 포맷: [Server] '닉네임(IP)' connected.
+    sprintf(notice, "[Server] '%s(%s)' connected. (Total: %d)", 
+            nickname, client_ip.c_str(), clnt_cnt);
+    send_msg(notice, strlen(notice), -1); // 전체 공지
+
+    // 채팅 루프
     while ((str_len = read(clnt_sock, msg, sizeof(msg))) != 0) {
         send_msg(msg, str_len, clnt_sock);
     }
 
-    // --- 접속 종료 처리 ---
+    // 접속 종료 처리
     mtx.lock();
     for (int i = 0; i < clnt_cnt; i++) {
         if (clnt_socks[i] == clnt_sock) {
@@ -50,9 +65,10 @@ void handle_clnt(int clnt_sock) {
     clnt_cnt--;
     mtx.unlock();
 
-    // 나갔다는 알림 전송 (sender_sock에 -1을 넣어 모두에게 전송)
-    sprintf(notice, "[Server] A user disconnected. (Total: %d)", clnt_cnt);
-    send_msg(notice, strlen(notice), -1); // -1 = 전체 공지
+    // 나갈 때도 닉네임(IP) 형식으로 알림
+    sprintf(notice, "[Server] '%s(%s)' disconnected. (Total: %d)", 
+            nickname, client_ip.c_str(), clnt_cnt);
+    send_msg(notice, strlen(notice), -1);
     
     close(clnt_sock);
 }
@@ -64,7 +80,8 @@ int main() {
     int serv_sock, clnt_sock;
     struct sockaddr_in serv_adr, clnt_adr;
     socklen_t clnt_adr_sz;
-    char notice[BUF_SIZE]; // 공지용 버퍼
+    
+    // notice 변수는 main에서 사용하지 않으므로 삭제
 
     serv_sock = socket(PF_INET, SOCK_STREAM, 0);
     
@@ -92,14 +109,11 @@ int main() {
         clnt_socks[clnt_cnt++] = clnt_sock;
         mtx.unlock();
 
-        // 들어왔다는 알림 전송 (-1 = 전체 공지)
-        sprintf(notice, "[Server] New user connected: %s (Total: %d)", 
-                inet_ntoa(clnt_adr.sin_addr), clnt_cnt);
-        
-        // 새로 들어온 사람을 포함한 모든 사람에게 알림을 줌
-        // 스레드 생성 전에 보내야함
-        send_msg(notice, strlen(notice), -1);
-        thread t(handle_clnt, clnt_sock);
+        // 여기서 바로 공지를 띄우지 않고, IP 문자열을 만들어서 스레드에 넘김
+        string client_ip = inet_ntoa(clnt_adr.sin_addr);
+
+        // 스레드 생성 시 IP 문자열도 같이 전달
+        thread t(handle_clnt, clnt_sock, client_ip);
         t.detach();
     }
 

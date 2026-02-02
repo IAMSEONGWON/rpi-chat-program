@@ -97,6 +97,10 @@ int main(int argc, char *argv[]) {
         cerr << "Connect error!" << endl; return 1;
     }
 
+    // 접속하자마자 닉네임을 먼저 전송
+    // argv[1]은 실행할 때 넣은 닉네임 (예: "yun")
+    write(sock, argv[1], strlen(argv[1]));
+
     // 터미널 모드 변경 (getch로 직접 처리)
     set_conio_terminal_mode();
 
