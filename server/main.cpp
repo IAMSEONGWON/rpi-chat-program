@@ -3,6 +3,7 @@
 #include <thread>
 #include <mutex>
 #include <cstring>
+#include <cstdio>
 #include <unistd.h>
 #include <arpa/inet.h>
 #include <sys/socket.h>
@@ -24,6 +25,15 @@ void send_msg(char *msg, int len, int sender_sock) {
         if (sender_sock == -1 || clnt_socks[i] != sender_sock) {
             write(clnt_socks[i], msg, len);
         }
+    }
+
+    // 파일에 로그 저장, "a" 모드: 파일 끝에 이어쓰기 (append)
+    FILE *fp = fopen("chat_log.txt", "a"); 
+    if (fp != nullptr) {
+        // 줄바꿈이 없는 메시지일 수 있으니 뒤에 \n을 붙여서 저장하면 보기 편함
+        // (단, 클라이언트가 이미 \n을 보냈는지에 따라 조정 필요. 보통은 그냥 저장)
+        fprintf(fp, "%s\n", msg);
+        fclose(fp);
     }
 }
 

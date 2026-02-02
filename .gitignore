@@ -21,3 +21,6 @@ release/
 
 # 시스템 파일 무시
 .DS_Store
+
+# 로그 파일 무시
+chat_log.txt
