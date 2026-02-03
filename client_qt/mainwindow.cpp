@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QHostAddress> // IP 주소 처리를 위함
+#include <opencv2/opencv.hpp>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -24,6 +25,9 @@ MainWindow::MainWindow(QWidget *parent)
 
     // 소켓에 데이터가 들어오면 -> receiveMessage 함수 실행
     connect(socket, &QTcpSocket::readyRead, this, &MainWindow::receiveMessage);
+
+    cv::Mat testMat = cv::Mat::zeros(100, 100, CV_8UC3);
+    qDebug() << "OpenCV Version:" << CV_VERSION;
 }
 
 MainWindow::~MainWindow()

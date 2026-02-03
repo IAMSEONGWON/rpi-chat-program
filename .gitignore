@@ -18,6 +18,7 @@ Makefile*
 debug/
 release/
 .qmake.stash
+test/
 
 # 시스템 파일 무시
 .DS_Store
