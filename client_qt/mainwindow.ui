@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>1018</width>
+    <height>604</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -85,13 +85,62 @@
      <bool>false</bool>
     </property>
    </widget>
+   <widget class="QLabel" name="lblVideo">
+    <property name="geometry">
+     <rect>
+      <x>650</x>
+      <y>80</y>
+      <width>321</width>
+      <height>261</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>나의 화면</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btnWatch">
+    <property name="geometry">
+     <rect>
+      <x>50</x>
+      <y>390</y>
+      <width>75</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>PushButton</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="leTarget">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>360</y>
+      <width>113</width>
+      <height>22</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lblOpponent">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>80</y>
+      <width>151</width>
+      <height>241</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>TextLabel</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
+     <width>1018</width>
      <height>22</height>
     </rect>
    </property>
