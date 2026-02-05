@@ -5,6 +5,6 @@
 #define BUF_SIZE 1024
 #define MAX_CLNT 10
 #define VIDEO_PORT 9999 
-#define VIDEO_SERVER_IP "192.168.0.21" // 서버 IP (필요시 변경)
+#define VIDEO_SERVER_IP "192.168.0.11" // 서버 IP (필요시 변경)
 
 #endif // DEFS_H
